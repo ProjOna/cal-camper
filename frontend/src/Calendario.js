@@ -91,9 +91,10 @@ const renderEventContent = (eventInfo) => {
     }
   };
 
-  useEffect(() => {
-    fetchReservas();
-  }, []);
+useEffect(() => {
+  fetchReservas();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
 const handleDateClick = (info) => {
   // tratamos un click como rango de un solo día
