@@ -1,3 +1,5 @@
+require('dotenv').config(); 
+
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
@@ -81,6 +83,9 @@ app.put('/reservas/:id', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Servidor en http://localhost:3000');
+
+// Después:
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor en http://localhost:${PORT}`);
 });
