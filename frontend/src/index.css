@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #f5f7fb;
+  color: #2b2d42;
+}
+
+/* CONTENEDOR GENERAL */
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: 600;
+}
+
+/* CALENDARIO */
+.fc {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 10px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* DÍAS */
+.fc-daygrid-day-frame {
+  min-height: 110px;
+  padding: 4px;
+}
+
+/* EVENTOS */
+.fc-daygrid-event {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* TEXTO EVENTO */
+.fc-daygrid-event .fc-event-title {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* HOVER EVENTO */
+.fc-daygrid-event:hover {
+  transform: scale(1.03);
+  filter: brightness(1.1);
+}
+
+/* BOTONES DENTRO DEL EVENTO */
+.fc-daygrid-event button {
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.8);
+  transition: 0.2s;
+}
+
+.fc-daygrid-event button:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+/* CABECERA (mes, flechas, etc) */
+.fc-toolbar-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.fc-button {
+  background: #577590 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+}
+
+.fc-button:hover {
+  background: #495f78 !important;
+}
+
+/* DÍA ACTUAL */
+.fc-day-today {
+  background-color: #fffcdc !important;
+}
+
+/* GRID MÁS SUAVE */
+.fc-scrollgrid {
+  border: none !important;
+}
+
+.fc-scrollgrid td,
+.fc-scrollgrid th {
+  border: 1px solid #f0f0f0 !important;
+}
