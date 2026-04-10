@@ -34,7 +34,7 @@ const renderEventContent = (eventInfo) => {
     if (!window.confirm("¿Eliminar reserva?")) return;
 
     try {
-      await axios.delete(`http://localhost:3000/reservas/${eventInfo.event.id}`);
+      await axios.delete(`https://cal-camper-production.up.railway.app/reservas/${eventInfo.event.id}`);
       fetchReservas();
     } catch (err) {
       alert("Error al eliminar");
@@ -70,7 +70,7 @@ const renderEventContent = (eventInfo) => {
 
   const fetchReservas = async () => {
     try {
-        const res = await axios.get('http://localhost:3000/reservas');
+        const res = await axios.get('https://cal-camper-production.up.railway.app/reservas');
         const mapped = res.data.map(r => ({
         id: r.id,
         title: r.nombre,
@@ -117,7 +117,7 @@ const submitReserva = async ({ nombre, comentario, fecha_inicio, fecha_fin }) =>
   try {
     if (editingEvent) {
       // EDITAR
-      await axios.put(`http://localhost:3000/reservas/${editingEvent.id}`, {
+      await axios.put(`https://cal-camper-production.up.railway.app/reservas/${editingEvent.id}`, {
         nombre,
         comentario,
         fecha_inicio,
@@ -125,7 +125,7 @@ const submitReserva = async ({ nombre, comentario, fecha_inicio, fecha_fin }) =>
       });
     } else {
       // CREAR
-      await axios.post('http://localhost:3000/reservas', {
+      await axios.post('https://cal-camper-production.up.railway.app/reservas', {
         nombre,
         comentario,
         fecha_inicio,
