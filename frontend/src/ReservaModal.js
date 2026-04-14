@@ -1,98 +1,77 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, TextField, Button } from '@mui/material';
+import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 300,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-
-export default function ReservaModal({ open, handleClose, handleSubmit, defaultStart, defaultEnd, initialData }) {
+const ReservaModal = ({ open, handleClose, handleSubmit, defaultStart, defaultEnd, initialData }) => {
   const [nombre, setNombre] = useState('');
   const [comentario, setComentario] = useState('');
-  const [fechaInicio, setFechaInicio] = useState(defaultStart);
-  const [fechaFin, setFechaFin] = useState(defaultEnd);
+
+  const [range, setRange] = useState([{
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection'
+  }]);
 
   useEffect(() => {
-  if (initialData) {
-    setNombre(initialData.title);
-    setComentario(initialData.extendedProps.comentario || '');
-    setFechaInicio(initialData.extendedProps.fecha_inicio);
-    setFechaFin(initialData.extendedProps.fecha_fin);
-  } else {
-    setNombre('');
-    setComentario('');
-    setFechaInicio(defaultStart);
-    setFechaFin(defaultEnd);
-  }
-  }, [initialData, defaultStart, defaultEnd]);
+    if (initialData) {
+      setNombre(initialData.title || '');
+      setComentario(initialData.extendedProps?.comentario || '');
+    }
 
-  const submit = () => {
-    if (!nombre) return alert("Debes poner un nombre");
-    if (fechaFin < fechaInicio) return alert("La fecha fin no puede ser menor");
+    if (defaultStart && defaultEnd) {
+      setRange([{
+        startDate: new Date(defaultStart),
+        endDate: new Date(defaultEnd),
+        key: 'selection'
+      }]);
+    }
+  }, [defaultStart, defaultEnd, initialData]);
 
+  if (!open) return null;
+
+  const handleSave = () => {
     handleSubmit({
       nombre,
       comentario,
-      fecha_inicio: fechaInicio,
-      fecha_fin: fechaFin
+      fecha_inicio: range[0].startDate.toISOString().split('T')[0],
+      fecha_fin: range[0].endDate.toISOString().split('T')[0]
     });
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box sx={style}>
-        <h2>{initialData ? 'Editar Reserva' : 'Crear Reserva'}</h2>
-        <p>Fechas: {defaultStart} → {defaultEnd}</p>
-        <TextField
-          label="Nombre"
-          fullWidth
+    <div className="modal-overlay">
+      <div className="modal">
+
+        <h2>{initialData ? 'Editar reserva ✏️' : 'Nueva reserva 🚐'}</h2>
+
+        <input
+          placeholder="Nombre"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-          margin="dense"
         />
 
-        <TextField
-          label="Comentario"
-          fullWidth
+        <textarea
+          placeholder="Comentario"
           value={comentario}
           onChange={(e) => setComentario(e.target.value)}
-          margin="dense"
         />
 
-        <TextField
-          label="Fecha inicio"
-          type="date"
-          fullWidth
-          value={fechaInicio}
-          onChange={(e) => setFechaInicio(e.target.value)}
-          margin="dense"
-          InputLabelProps={{ shrink: true }}
+        <DateRange
+          editableDateInputs={true}
+          onChange={item => setRange([item.selection])}
+          moveRangeOnFirstSelection={false}
+          ranges={range}
         />
 
-        <TextField
-          label="Fecha fin"
-          type="date"
-          fullWidth
-          value={fechaFin}
-          onChange={(e) => setFechaFin(e.target.value)}
-          margin="dense"
-          InputLabelProps={{ shrink: true }}
-        />
-        <Box mt={2} display="flex" justifyContent="space-between">
-          <Button variant="contained" color="primary" onClick={submit}>
-            {initialData ? 'Guardar' : 'Crear'}
-          </Button>
-          <Button variant="outlined" color="secondary" onClick={handleClose}>Cancelar</Button>
-        </Box>
-      </Box>
-    </Modal>
+        <div className="modal-buttons">
+          <button onClick={handleClose}>Cancelar</button>
+          <button onClick={handleSave}>Guardar</button>
+        </div>
+
+      </div>
+    </div>
   );
-}
+};
+
+export default ReservaModal;
